@@ -3,11 +3,11 @@ import { FeaturedArticlesData } from '@/app/api/FeaturedArticleData';
 import { NewsData } from '@/app/api/NewsData';
 import { OnThisDayData } from '@/app/api/OnThisDayData';
 import { FeaturedPictureData } from '@/app/api/FeaturedPictureData';
-import DidYouKnow from '@/app/components/DidYouKnow';
-import FeaturedArticles from '@/app/components/FeaturedArticle';
-import FeaturedPicture from '@/app/components/FeaturedPicture';
-import News from '@/app/components/News';
-import OnThisDay from '@/app/components/OnThisDay';
+import DidYouKnow from '@/app/components/mainPageComponents/DidYouKnow';
+import FeaturedArticles from '@/app/components/mainPageComponents/FeaturedArticle';
+import FeaturedPicture from '@/app/components/mainPageComponents/FeaturedPicture';
+import News from '@/app/components/mainPageComponents/News';
+import OnThisDay from '@/app/components/mainPageComponents/OnThisDay';
 import Link from 'next/link';
 import React from 'react'
 
