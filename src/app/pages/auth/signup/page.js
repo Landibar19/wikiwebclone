@@ -1,14 +1,14 @@
 'use client';
 import React, { useState } from 'react';
 import Link from 'next/link';
-import ReCAPTCHA from 'react-google-recaptcha';
+
 
 const SignUp = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [email, setEmail] = useState('');
-  const [captcha, setCaptcha] = useState('');
+
 
   const handleSignUp = (event) => {
     event.preventDefault();
@@ -20,9 +20,7 @@ const SignUp = () => {
     console.log('Captcha:', captcha);
   };
 
-  const handleCaptchaChange = (value) => {
-    setCaptcha(value);
-  };
+
 
   return (
     <div className="relative mb-5 bg-gray-100">
@@ -89,10 +87,6 @@ const SignUp = () => {
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="captcha">
               Captcha Security
             </label>
-            <ReCAPTCHA
-              sitekey="YOUR_RECAPTCHA_SITE_KEY"
-              onChange={handleCaptchaChange}
-            />
             <p className="text-gray-500 text-xs mt-1">Please complete the captcha to verify you are not a robot.</p>
           </div>
           <div className="flex items-center justify-center">
