@@ -78,7 +78,7 @@ const Signin = () => {
           <h2><Link href='/' className='hover:underline'>Forgot password</Link></h2>
         </div>
         <Link href='/auth/signup' className='flex items-center justify-center mt-7 text-blue-800 hover:underline'>
-          Don't have an account? Sign up
+        Don&apos;t have an account? Sign up
         </Link>
       </div>
     </div>
