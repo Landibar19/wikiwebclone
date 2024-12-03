@@ -17,7 +17,7 @@ const SignUp = () => {
     console.log('Password:', password);
     console.log('Confirm Password:', confirmPassword);
     console.log('Email:', email);
-    console.log('Captcha:', captcha);
+   
   };
 
 
