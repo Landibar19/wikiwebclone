@@ -1,14 +1,17 @@
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+
+// Load environment variables from .env.local file
+dotenv.config({ path: '.env.local' });
 
 const MONGODB_URI = process.env.MONGODB_URI;
-console.log(MONGODB_URI);
+console.log('MongoDB URI:', MONGODB_URI);
 
 if (!MONGODB_URI) {
   throw new Error(
     'Please define the MONGODB_URI environment variable inside .env.local'
   );
 }
-
 
 let cached = global.mongoose;
 
@@ -18,6 +21,7 @@ if (!cached) {
 
 async function dbConnect() {
   if (cached.conn) {
+    console.log('Using cached database connection');
     return cached.conn;
   }
 
@@ -25,10 +29,15 @@ async function dbConnect() {
     const opts = {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      bufferCommands: false,
     };
 
     cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
+      console.log('Connected to MongoDB');
       return mongoose;
+    }).catch((error) => {
+      console.error('Error connecting to MongoDB:', error);
+      throw error;
     });
   }
   cached.conn = await cached.promise;

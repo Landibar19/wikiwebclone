@@ -7,6 +7,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { CiSearch } from "react-icons/ci";
 import Menu from './Menu';
+import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
+import { useSelector, useDispatch } from 'react-redux';
+import { login, logout } from '../../../redux/slices/authSlice';
 
 const Header = () => {
   const [showSearch, setShowSearch] = useState(false);
@@ -14,9 +18,24 @@ const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const searchRef = useRef(null);
   const menuRef = useRef(null);
+  const router = useRouter();
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const token = Cookies.get('accessToken');
+    console.log('Access token from cookies:', token);
+    if (token) {
+      dispatch(login());
+      console.log('User is logged in');
+    } else {
+      console.log('User is not logged in');
+    }
+  }, [dispatch]);
 
   const handleSearchClick = () => {
     setShowSearch(true);
+    searchRef.current.focus(); // Add this line to focus on the search input when it appears
   };
 
   const handleClickOutside = (event) => {
@@ -41,6 +60,14 @@ const Header = () => {
 
   const handleMenuClick = () => {
     setMenuOpen(!menuOpen);
+  };
+
+  const handleSignOut = () => {
+    // Clear the tokens from cookies
+    Cookies.remove('accessToken');
+    Cookies.remove('refreshToken');
+    dispatch(logout());
+    router.push('/auth/signin');
   };
 
   return (
@@ -72,8 +99,16 @@ const Header = () => {
             <CiSearch className='cursor-pointer' onClick={handleSearchClick} />
           )}
           <Link className='text-blue-800' href='/pages/donate' onClick={() => handlePageClick('Donate')}>Donate</Link>
-          <Link className='text-blue-800' href='/pages/auth/signup' onClick={() => handlePageClick('Create account')}>Create account</Link>
-          <Link className='text-blue-800' href='/pages/auth/signin' onClick={() => handlePageClick('Login')}>Login</Link>
+          {isLoggedIn ? (
+            <button onClick={handleSignOut} className="ml-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+              Sign Out
+            </button>
+          ) : (
+            <>
+              <Link className='text-blue-800' href='/pages/auth/signup' onClick={() => handlePageClick('Create account')}>Create account</Link>
+              <Link className='text-blue-800' href='/pages/auth/signin' onClick={() => handlePageClick('Login')}>Login</Link>
+            </>
+          )}
         </div>
       </div>
       <div className="flex flex-row flex-1 justify-left items-center">

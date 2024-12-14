@@ -1,26 +1,38 @@
 'use client';
 import React, { useState } from 'react';
 import Link from 'next/link';
-
+import { useRouter } from 'next/navigation';
+import axios from 'axios';
 
 const SignUp = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const router = useRouter();
 
-
-  const handleSignUp = (event) => {
+  const handleSignUp = async (event) => {
     event.preventDefault();
-    // Handle sign-up logic here
-    console.log('Username:', username);
-    console.log('Password:', password);
-    console.log('Confirm Password:', confirmPassword);
-    console.log('Email:', email);
-   
+
+    if (password !== confirmPassword) {
+      setMessage('Passwords do not match');
+      return;
+    }
+
+    try {
+      const response = await axios.post('/api/signup', {
+        username,
+        email,
+        password,
+      });
+      setMessage(response.data.message);
+      // Redirect to login page after successful signup
+      router.push('pages/auth/signin');
+    } catch (error) {
+      setMessage(error.response.data.message);
+    }
   };
-
-
 
   return (
     <div className="relative mb-5 bg-gray-100">
@@ -83,12 +95,6 @@ const SignUp = () => {
             />
             <p className="text-gray-500 text-xs mt-1">Please enter a valid email address.</p>
           </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="captcha">
-              Captcha Security
-            </label>
-            <p className="text-gray-500 text-xs mt-1">Please complete the captcha to verify you are not a robot.</p>
-          </div>
           <div className="flex items-center justify-center">
             <button
               type="submit"
@@ -98,11 +104,12 @@ const SignUp = () => {
             </button>
           </div>
         </form>
+        {message && <p className="mt-4 text-red-500">{message}</p>}
         <div className='flex flex-col items-center justify-center text-blue-800 mt-4'>
           <h2><Link href='/' className='hover:underline'>Help with login</Link></h2>
           <h2><Link href='/' className='hover:underline'>Forgot password</Link></h2>
         </div>
-        <Link href='/signin' className='flex items-center justify-center mt-2 text-blue-800 hover:underline'>
+        <Link href='/pages/auth/signin' className='flex items-center justify-center mt-2 text-blue-800 hover:underline'>
           Already have an account? Sign in
         </Link>
       </div>

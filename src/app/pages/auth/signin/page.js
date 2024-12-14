@@ -1,24 +1,35 @@
 'use client';
 import Link from 'next/link';
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { login } from '../../../../redux/slices/authSlice';
 
 const Signin = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [keepLoggedIn, setKeepLoggedIn] = useState(false);
+  const [message, setMessage] = useState('');
+  const router = useRouter();
+  const dispatch = useDispatch();
 
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('/api/users/login', {
+      const response = await axios.post('/api/login', {
         username,
         password,
       });
       console.log('Login successful:', response.data);
-      // Handle successful login (e.g., store token, redirect)
+      setMessage(response.data.message);
+      // Dispatch login action
+      dispatch(login());
+      // Redirect to home page after successful login
+      router.push('/');
     } catch (error) {
       console.error('Login failed:', error.response.data);
+      setMessage(error.response.data.message);
     }
   };
 
@@ -73,12 +84,13 @@ const Signin = () => {
             </button>
           </div>
         </form>
+        {message && <p className="mt-4 text-red-500">{message}</p>}
         <div className='flex flex-col items-center justify-center text-blue-800 mt-4'>
           <h2><Link href='/' className='hover:underline'>Help with login</Link></h2>
           <h2><Link href='/' className='hover:underline'>Forgot password</Link></h2>
         </div>
         <Link href='/auth/signup' className='flex items-center justify-center mt-7 text-blue-800 hover:underline'>
-        Don&apos;t have an account? Sign up
+          Don&apos;t have an account? Sign up
         </Link>
       </div>
     </div>
