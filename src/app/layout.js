@@ -1,5 +1,5 @@
 'use client';
-import localFont from "next/font/local";
+import localFont from "@next/font/local";
 import "./globals.css";
 import Header from "./components/Header/Header";
 import { Provider } from "react-redux";
