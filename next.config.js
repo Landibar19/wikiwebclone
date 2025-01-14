@@ -1,4 +1,4 @@
-
+// filepath: /c:/Users/User/Desktop/Lizander/Pdf/MERN/wikicloneapp/next.config.js
 const path = require('path');
 
 module.exports = {
