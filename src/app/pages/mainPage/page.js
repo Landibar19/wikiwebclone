@@ -1,4 +1,4 @@
-import { DidYouKnowData } from '@/app/api/DidYouKnowData';
+
 import { FeaturedArticlesData } from '@/app/api/FeaturedArticleData';
 import { NewsData } from '@/app/api/NewsData';
 import { OnThisDayData } from '@/app/api/OnThisDayData';
@@ -10,6 +10,7 @@ import News from '@/app/components/mainPageComponents/News';
 import OnThisDay from '@/app/components/mainPageComponents/OnThisDay';
 import Link from 'next/link';
 import React from 'react'
+import { DidYouKnowData } from '@/app/api/DidYouKnowData';
 
 const MainPage = () => {
   return (

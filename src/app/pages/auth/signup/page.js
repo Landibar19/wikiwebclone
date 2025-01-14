@@ -21,14 +21,14 @@ const SignUp = () => {
     }
 
     try {
-      const response = await axios.post('/api/signup', {
+      const response = await axios.post('/api/auth/signup', {
         username,
         email,
         password,
       });
       setMessage(response.data.message);
       // Redirect to login page after successful signup
-      router.push('pages/auth/signin');
+      router.push('/pages/auth/signin');
     } catch (error) {
       setMessage(error.response.data.message);
     }

@@ -40,7 +40,7 @@ export default async function handler(req, res) {
       ]);
 
       console.log('Login successful');
-      // Login successful
+    
       res.status(200).json({ message: 'Login successful' });
     } catch (error) {
       console.error('Error during login:', error);
