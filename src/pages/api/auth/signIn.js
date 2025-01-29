@@ -38,14 +38,14 @@ export default async function handler(req, res) {
       // Set cookies
       res.setHeader('Set-Cookie', [
         cookie.serialize('accessToken', accessToken, {
-          
+          httpOnly: true,
           secure: process.env.NODE_ENV !== 'development',
           maxAge: 3600,
           sameSite: 'strict',
           path: '/'
         }),
         cookie.serialize('refreshToken', refreshToken, {
-          
+          httpOnly: true,
           secure: process.env.NODE_ENV !== 'development',
           maxAge: 604800,
           sameSite: 'strict',
