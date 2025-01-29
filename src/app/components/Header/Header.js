@@ -98,9 +98,9 @@ const Header = () => {
           <Link className='text-blue-800' href='/pages/donate' onClick={() => handlePageClick('Donate')}>Donate</Link>
           {isLoggedIn ? (
             <div>
-            <button onClick={handleSignOut} className="ml-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-              Sign Out
-            </button>
+              <button onClick={handleSignOut} className="ml-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                Sign Out
+              </button>
             </div>
           ) : (
             <>
