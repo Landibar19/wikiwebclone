@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { MdMenu } from "react-icons/md";
 import { FaTimes } from "react-icons/fa";
 import logo from "../../../../public/assets/Header/wikipedia.png";
@@ -22,12 +22,14 @@ const Header = () => {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const dispatch = useDispatch();
 
-  // Check for the access token directly
-  const token = Cookies.get('accessToken');
-  console.log('Access token from cookies in Header:', token); // Debugging statement
-  if (token && !isLoggedIn) {
-    dispatch(login());
-  }
+  useEffect(() => {
+    // Check for the access token directly
+    const token = Cookies.get('accessToken');
+    console.log('Access token from cookies in Header:', token); // Debugging statement
+    if (token && !isLoggedIn) {
+      dispatch(login());
+    }
+  }, [dispatch, isLoggedIn]);
 
   const handleSearchClick = () => {
     setShowSearch(true);
@@ -42,7 +44,7 @@ const Header = () => {
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
@@ -95,9 +97,11 @@ const Header = () => {
           )}
           <Link className='text-blue-800' href='/pages/donate' onClick={() => handlePageClick('Donate')}>Donate</Link>
           {isLoggedIn ? (
+            <div>
             <button onClick={handleSignOut} className="ml-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
               Sign Out
             </button>
+            </div>
           ) : (
             <>
               <Link className='text-blue-800' href='/pages/auth/signup' onClick={() => handlePageClick('Create account')}>Create account</Link>
