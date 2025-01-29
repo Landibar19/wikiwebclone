@@ -28,6 +28,7 @@ const Signin = () => {
       Cookies.set('accessToken', response.data.accessToken, { expires: keepLoggedIn ? 7 : 1 });
       Cookies.set('refreshToken', response.data.refreshToken, { expires: 7 });
       console.log('Access token set in cookies:', Cookies.get('accessToken')); // Debugging statement
+      console.log('Refresh token set in cookies:', Cookies.get('refreshToken')); // Debugging statement
       // Dispatch login action
       dispatch(login());
       // Redirect to home page after successful login

@@ -62,7 +62,7 @@ const Header = () => {
     Cookies.remove('refreshToken');
     dispatch(logout());
     console.log('User logged out');
-    router.push('/auth/signin');
+    router.push('pages/auth/signin');
   };
 
   return (
