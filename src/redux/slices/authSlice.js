@@ -11,9 +11,13 @@ const authSlice = createSlice({
   reducers: {
     login: (state) => {
       state.isLoggedIn = true;
+      console.log('Login action dispatched, state updated:', state);
     },
     logout: (state) => {
       state.isLoggedIn = false;
+      Cookies.remove('accessToken');
+      Cookies.remove('refreshToken');
+      console.log('Logout action dispatched, state updated:', state);
     },
   },
 });

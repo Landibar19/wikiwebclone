@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { MdMenu } from "react-icons/md";
 import { FaTimes } from "react-icons/fa";
 import logo from "../../../../public/assets/Header/wikipedia.png";
@@ -22,20 +22,15 @@ const Header = () => {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const token = Cookies.get('accessToken');
-    console.log('Access token from cookies:', token);
-    if (token) {
-      dispatch(login());
-      console.log('User is logged in');
-    } else {
-      console.log('User is not logged in');
-    }
-  }, [dispatch]);
+  // Check for the access token directly
+  const token = Cookies.get('accessToken');
+  console.log('Access token from cookies in Header:', token); // Debugging statement
+  if (token && !isLoggedIn) {
+    dispatch(login());
+  }
 
   const handleSearchClick = () => {
     setShowSearch(true);
-    searchRef.current.focus(); // Add this line to focus on the search input when it appears
   };
 
   const handleClickOutside = (event) => {
@@ -47,7 +42,7 @@ const Header = () => {
     }
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
@@ -63,36 +58,36 @@ const Header = () => {
   };
 
   const handleSignOut = () => {
-    // Clear the tokens from cookies
     Cookies.remove('accessToken');
     Cookies.remove('refreshToken');
     dispatch(logout());
+    console.log('User logged out');
     router.push('/auth/signin');
   };
 
   return (
-    <div className=' border-gray-400 border-b-[1px]'>
-      <div className='flex py-2'>
-        <div className="flex flex-row flex-1 items-center">
-          <div onClick={handleMenuClick} className="cursor-pointer">
+    <div className='border-gray-400 border-b-[1px] relative'>
+      <div className='flex flex-col md:flex-row py-2'>
+        <div className="flex flex-row flex-1 items-center justify-between md:justify-start">
+          <div onClick={handleMenuClick} className="cursor-pointer md:hidden">
             {menuOpen ? <FaTimes className='size-7' /> : <MdMenu className='size-7' />}
           </div>
-          <div className='flex flex-row px-5'>
+          <div className='flex flex-row px-5 items-center'>
             <Link href='/' onClick={() => handlePageClick('Home')}>
               <Image src={logo} alt="logo" className="w-14 h-14" />
             </Link>
-            <h1 className="flex flex-col px-5 font-serif uppercase text-xl ">
+            <h1 className="flex flex-col px-5 font-serif uppercase text-xl">
               WikiClone
-              <span className='text-xs font-serif capitalize '>Free Encyclopedia</span>
+              <span className='text-xs font-serif capitalize'>Free Encyclopedia</span>
             </h1>
           </div>
         </div>
-        <div className="flex flex-row flex-2 justify-end space-x-4 items-center">
+        <div className="flex flex-row flex-2 justify-end space-x-4 items-center mt-2 md:mt-0">
           {showSearch ? (
             <input
               ref={searchRef}
               type="text"
-              className='text-blue-800 border border-gray-500 rounded px-2 py-1'
+              className='absolute top-2 right-2 text-blue-800 border border-gray-500 rounded px-2 py-1 bg-white z-10'
               placeholder="Search..."
             />
           ) : (

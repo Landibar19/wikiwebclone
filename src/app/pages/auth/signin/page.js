@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
+import Cookies from 'js-cookie';
 import { login } from '../../../../redux/slices/authSlice';
 
 const Signin = () => {
@@ -17,12 +18,16 @@ const Signin = () => {
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('/api/login', {
+      const response = await axios.post('/api/auth/signin', {
         username,
         password,
       });
       console.log('Login successful:', response.data);
       setMessage(response.data.message);
+      // Set cookies
+      Cookies.set('accessToken', response.data.accessToken, { expires: keepLoggedIn ? 7 : 1 });
+      Cookies.set('refreshToken', response.data.refreshToken, { expires: 7 });
+      console.log('Access token set in cookies:', Cookies.get('accessToken')); // Debugging statement
       // Dispatch login action
       dispatch(login());
       // Redirect to home page after successful login
