@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
 import Link from 'next/link';
 
-const Menu = forwardRef((props, ref) => {
+const Menu = forwardRef(function Menu(props, ref) {
   return (
     <div ref={ref} className="absolute top-20  w-40 h-full bg-white flex flex-col items-center justify-center shadow-lg z-50">
       <div className='absolute top-3 bg-white w-40'>
