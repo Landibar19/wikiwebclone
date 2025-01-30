@@ -13,7 +13,6 @@ export default async function handler(req, res) {
     try {
       console.log('Received login request:', { username, password });
 
-      // Check if the user exists
       const user = await User.findOne({ username });
       if (!user) {
         console.log('User not found');
@@ -37,15 +36,24 @@ export default async function handler(req, res) {
 
       // Set cookies
       res.setHeader('Set-Cookie', [
+        // httpOnly cookie for server-side security
         cookie.serialize('accessToken', accessToken, {
-        
+          httpOnly: true,
+          secure: process.env.NODE_ENV !== 'development',
+          maxAge: 3600,
+          sameSite: 'strict',
+          path: '/'
+        }),
+        // Non-httpOnly cookie for client-side access
+        cookie.serialize('clientAccessToken', accessToken, {
+          httpOnly: false,
           secure: process.env.NODE_ENV !== 'development',
           maxAge: 3600,
           sameSite: 'strict',
           path: '/'
         }),
         cookie.serialize('refreshToken', refreshToken, {
-         
+          httpOnly: true,
           secure: process.env.NODE_ENV !== 'development',
           maxAge: 604800,
           sameSite: 'strict',

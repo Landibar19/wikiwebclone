@@ -33,7 +33,7 @@ const Header = () => {
   // Ensure cookies are accessed only on the client
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const token = Cookies.get('accessToken');
+      const token = Cookies.get('clientAccessToken');
       console.log('Access token from cookies in Header:', token);
       if (token && !isLoggedIn) {
         dispatch(login());
@@ -59,6 +59,7 @@ const Header = () => {
   // Handle logout
   const handleSignOut = () => {
     Cookies.remove('accessToken');
+    Cookies.remove('clientAccessToken');
     Cookies.remove('refreshToken');
     dispatch(logout());
     console.log('User logged out');
