@@ -66,7 +66,7 @@ const Header = () => {
     router.push('/pages/auth/signin');
   };
 
-  // Prevent rendering until hydration completes
+
   if (!hydrated) return null;
 
   return (
