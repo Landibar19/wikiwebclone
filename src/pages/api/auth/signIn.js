@@ -7,6 +7,8 @@ import cookie from 'cookie';
 export default async function handler(req, res) {
   await dbConnect();
 
+  console.log('API route hit:', req.method); // Debugging statement
+
   if (req.method === 'POST') {
     const { username, password } = req.body;
 
@@ -69,6 +71,7 @@ export default async function handler(req, res) {
       res.status(500).json({ message: 'Internal server error' });
     }
   } else {
+    console.log('Method not allowed:', req.method); // Debugging statement
     // Handle any other HTTP method
     res.setHeader('Allow', ['POST']);
     res.status(405).end(`Method ${req.method} Not Allowed`);
