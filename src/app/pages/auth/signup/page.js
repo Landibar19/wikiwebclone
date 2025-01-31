@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import { Oval } from 'react-loader-spinner';
 
 const SignUp = () => {
   const [username, setUsername] = useState('');
@@ -10,6 +11,8 @@ const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
   const router = useRouter();
 
   const handleSignUp = async (event) => {
@@ -20,6 +23,10 @@ const SignUp = () => {
       return;
     }
 
+    setLoading(true);
+    setMessage('');
+    setSuccess(false);
+
     try {
       const response = await axios.post('/api/auth/signup', {
         username,
@@ -27,10 +34,17 @@ const SignUp = () => {
         password,
       });
       setMessage(response.data.message);
-      // Redirect to login page after successful signup
-      router.push('/pages/auth/signin');
+      setSuccess(true);
+      // Redirect to login page after a short delay
+      setTimeout(() => {
+        router.push('/pages/auth/signin');
+      }, 3000);
     } catch (error) {
       setMessage(error.response.data.message);
+    } finally {
+      setTimeout(() => {
+        setLoading(false);
+      }, 3000); // Ensure loading state lasts for at least 3 seconds
     }
   };
 
@@ -99,12 +113,31 @@ const SignUp = () => {
             <button
               type="submit"
               className="w-72 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline"
+              disabled={loading}
             >
-              Create Account
+              {loading ? (
+                <div className="flex items-center justify-center">
+                  <Oval
+                    height={20}
+                    width={20}
+                    color="#ffffff"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                    visible={true}
+                    ariaLabel='oval-loading'
+                    secondaryColor="#f3f3f3"
+                    strokeWidth={2}
+                    strokeWidthSecondary={2}
+                  />
+                  <span className="ml-2">Signing Up...</span>
+                </div>
+              ) : (
+                'Create Account'
+              )}
             </button>
           </div>
         </form>
-        {message && <p className="mt-4 text-red-500">{message}</p>}
+        {message && <p className={`mt-4 ${success ? 'text-green-500' : 'text-red-500'}`}>{message}</p>}
         <div className='flex flex-col items-center justify-center text-blue-800 mt-4'>
           <h2><Link href='/' className='hover:underline'>Help with login</Link></h2>
           <h2><Link href='/' className='hover:underline'>Forgot password</Link></h2>

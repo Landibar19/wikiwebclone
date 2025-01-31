@@ -71,8 +71,7 @@ export default async function handler(req, res) {
       res.status(500).json({ message: 'Internal server error' });
     }
   } else {
-    console.log('Method not allowed:', req.method); // Debugging statement
-    // Handle any other HTTP method
+    console.log('Method not allowed:', req.method); 
     res.setHeader('Allow', ['POST']);
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
