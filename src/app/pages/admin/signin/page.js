@@ -17,7 +17,7 @@ const AdminLogin = () => {
     setMessage('');
 
     try {
-      const response = await axios.post('/api/admin/signin', {
+      const response = await axios.post('/api/admin/signIn', {
         username,
         password,
       });
