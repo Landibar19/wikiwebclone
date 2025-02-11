@@ -48,18 +48,20 @@ const AdminDashboard = () => {
                         user.username
                       )}
                     </td>
-                    <td className="py-2">
-                      {editingUserId === user._id ? (
-                        <input
-                          type="email"
-                          value={editEmail}
-                          onChange={(e) => setEditEmail(e.target.value)}
-                          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        />
-                      ) : (
-                        user.email
-                      )}
-                    </td>
+                    {user.role !== 'admin' && (
+                      <td className="py-2">
+                        {editingUserId === user._id ? (
+                          <input
+                            type="email"
+                            value={editEmail}
+                            onChange={(e) => setEditEmail(e.target.value)}
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                          />
+                        ) : (
+                          user.email
+                        )}
+                      </td>
+                    )}
                     <td className="py-2">
                       {editingUserId === user._id ? (
                         <button

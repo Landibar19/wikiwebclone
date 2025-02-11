@@ -1,9 +1,8 @@
 'use client';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { login } from '../../../../redux/slices/authSlice';
+import { handleAdminLogin } from '@/utils/auth/admin/adminAuthUtils';
 
 const AdminLogin = () => {
   const [username, setUsername] = useState('');
@@ -13,35 +12,11 @@ const AdminLogin = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const handleLogin = async (event) => {
-    event.preventDefault();
-
-    setLoading(true);
-    setMessage('');
-
-    try {
-      const response = await axios.post('/api/admin/signin', {
-        username,
-        password,
-      });
-      setMessage(response.data.message);
-      dispatch(login());
-      // Set isAdmin state to true
-      setTimeout(() => {
-        router.push('/pages/admin/dashboard');
-      }, 2000);
-    } catch (error) {
-      setMessage(error.response.data.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
     <div className="relative mb-5 bg-gray-100">
       <div className="absolute top-0 left-0 m-4">
         <h1 className="text-2xl font-bold mb-4">Admin Login</h1>
-        <form onSubmit={handleLogin} className="bg-white p-6 rounded shadow-md w-full max-w-sm">
+        <form onSubmit={(event) => handleAdminLogin(event, username, password, setMessage, setLoading, dispatch, router)} className="bg-white p-6 rounded shadow-md w-full max-w-sm">
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
               Username
