@@ -5,7 +5,7 @@ import { login } from '@/redux/slices/authSlice';
 export const handleLogin = async (event, username, password, keepLoggedIn, setMessage, dispatch, router) => {
   event.preventDefault();
   try {
-    const response = await axios.post('/api/auth/signin', {
+    const response = await axios.post('/api/auth/signIn', {
       username,
       password, // Ensure this is plain text
     });

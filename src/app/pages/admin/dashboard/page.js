@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { fetchUsers, deleteUser, editUser, saveUser, resetPassword } from '@/utils/auth/admin/adminUtils';
+import { fetchUsers, deleteUser, editUser, saveUser, resetPassword } from '@/utils/auth/admin/adminDashboardUtils';
 
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
