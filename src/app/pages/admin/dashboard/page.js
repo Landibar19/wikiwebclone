@@ -1,48 +1,20 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { fetchUsers, deleteUser, editUser, saveUser, resetPassword } from '@/utils/auth/admin/adminUtils';
 
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState('');
+  const [editingUserId, setEditingUserId] = useState(null);
+  const [editUsername, setEditUsername] = useState('');
+  const [editEmail, setEditEmail] = useState('');
   const router = useRouter();
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get('/api/admin/users');
-        setUsers(response.data.users);
-      } catch (error) {
-        setMessage('Failed to fetch users');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUsers();
+    fetchUsers(setUsers, setMessage, setLoading);
   }, []);
-
-  const handleDelete = async (userId) => {
-    try {
-      await axios.delete(`/api/admin/users/${userId}`);
-      setUsers(users.filter(user => user._id !== userId));
-      setMessage('User deleted successfully');
-    } catch (error) {
-      setMessage('Failed to delete user');
-    }
-  };
-
-  const handleEdit = async (userId, updatedData) => {
-    try {
-      await axios.put(`/api/admin/users/${userId}`, updatedData);
-      setUsers(users.map(user => (user._id === userId ? { ...user, ...updatedData } : user)));
-      setMessage('User updated successfully');
-    } catch (error) {
-      setMessage('Failed to update user');
-    }
-  };
 
   return (
     <div className="relative mb-5 bg-gray-100">
@@ -64,21 +36,60 @@ const AdminDashboard = () => {
               <tbody>
                 {users.map(user => (
                   <tr key={user._id}>
-                    <td className="py-2">{user.username}</td>
-                    <td className="py-2">{user.email}</td>
                     <td className="py-2">
-                      <button
-                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
-                        onClick={() => handleDelete(user._id)}
-                      >
-                        Delete
-                      </button>
-                      <button
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded ml-2"
-                        onClick={() => handleEdit(user._id, { username: 'newUsername', email: 'newEmail@example.com' })}
-                      >
-                        Edit
-                      </button>
+                      {editingUserId === user._id ? (
+                        <input
+                          type="text"
+                          value={editUsername}
+                          onChange={(e) => setEditUsername(e.target.value)}
+                          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        />
+                      ) : (
+                        user.username
+                      )}
+                    </td>
+                    <td className="py-2">
+                      {editingUserId === user._id ? (
+                        <input
+                          type="email"
+                          value={editEmail}
+                          onChange={(e) => setEditEmail(e.target.value)}
+                          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        />
+                      ) : (
+                        user.email
+                      )}
+                    </td>
+                    <td className="py-2">
+                      {editingUserId === user._id ? (
+                        <button
+                          className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded"
+                          onClick={() => saveUser(user._id, editUsername, editEmail, users, setUsers, setMessage, setEditingUserId)}
+                        >
+                          Save
+                        </button>
+                      ) : (
+                        <>
+                          <button
+                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded ml-2"
+                            onClick={() => editUser(user, setEditingUserId, setEditUsername, setEditEmail)}
+                          >
+                            Edit
+                          </button>
+                          <button
+                            className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded ml-2"
+                            onClick={() => deleteUser(user._id, users, setUsers, setMessage)}
+                          >
+                            Delete
+                          </button>
+                          <button
+                            className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded ml-2"
+                            onClick={() => resetPassword(user._id, users, setMessage)}
+                          >
+                            Reset Password
+                          </button>
+                        </>
+                      )}
                     </td>
                   </tr>
                 ))}

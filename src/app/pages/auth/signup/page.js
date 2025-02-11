@@ -2,8 +2,8 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import axios from 'axios';
 import { Oval } from 'react-loader-spinner';
+import { signUp } from '@/utils/auth/users/signupUtils';
 
 const SignUp = () => {
   const [username, setUsername] = useState('');
@@ -23,29 +23,7 @@ const SignUp = () => {
       return;
     }
 
-    setLoading(true);
-    setMessage('');
-    setSuccess(false);
-
-    try {
-      const response = await axios.post('/api/auth/signup', {
-        username,
-        email,
-        password,
-      });
-      setMessage(response.data.message);
-      setSuccess(true);
-      // Redirect to login page after a short delay
-      setTimeout(() => {
-        router.push('/pages/auth/signin');
-      }, 3000);
-    } catch (error) {
-      setMessage(error.response.data.message);
-    } finally {
-      setTimeout(() => {
-        setLoading(false);
-      }, 3000); // Ensure loading state lasts for at least 3 seconds
-    }
+    await signUp(username, email, password, setMessage, setSuccess, setLoading, router);
   };
 
   return (

@@ -22,6 +22,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.8.4",
     "next": "^13.4.0",
+    "nodemailer": "^6.10.0",
     "parallel": "^1.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

@@ -24,6 +24,7 @@ const Header = () => {
   const router = useRouter();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const dispatch = useDispatch();
+  const [isAdmin, setIsAdmin] = useState(false);
 
   // Prevent hydration mismatches
   useEffect(() => {
@@ -63,9 +64,8 @@ const Header = () => {
     Cookies.remove('refreshToken');
     dispatch(logout());
     console.log('User logged out');
-    router.push('/pages/auth/signin');
+    router.push(isAdmin ? '/pages/admin/signin' : '/pages/auth/signin');
   };
-
 
   if (!hydrated) return null;
 

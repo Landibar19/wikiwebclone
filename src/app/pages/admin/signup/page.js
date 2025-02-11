@@ -35,7 +35,7 @@ const AdminSignUp = () => {
       setSuccess(true);
       // Redirect to admin login page after a short delay
       setTimeout(() => {
-        router.push('/admin/login');
+        router.push('/pages/admin/signin');
       }, 3000);
     } catch (error) {
       setMessage(error.response.data.message);

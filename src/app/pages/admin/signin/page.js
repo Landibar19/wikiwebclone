@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { login } from '../../../../redux/slices/authSlice';
 
 const AdminLogin = () => {
   const [username, setUsername] = useState('');
@@ -9,6 +11,7 @@ const AdminLogin = () => {
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -17,14 +20,15 @@ const AdminLogin = () => {
     setMessage('');
 
     try {
-      const response = await axios.post('/api/admin/signIn', {
+      const response = await axios.post('/api/admin/signin', {
         username,
         password,
       });
       setMessage(response.data.message);
-      // Redirect to admin dashboard after a short delay
+      dispatch(login());
+      // Set isAdmin state to true
       setTimeout(() => {
-        router.push('/admin/dashboard');
+        router.push('/pages/admin/dashboard');
       }, 2000);
     } catch (error) {
       setMessage(error.response.data.message);
