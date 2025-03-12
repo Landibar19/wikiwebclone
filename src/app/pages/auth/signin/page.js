@@ -3,7 +3,7 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
-import { handleLogin, handleRequestResetPassword } from '@/utils/auth/users/signinUtils';
+import { handleLogin, handleRequestResetPassword } from '@/services/auth/users/signinUtils';
 
 const Signin = () => {
   const [username, setUsername] = useState('');

@@ -12,6 +12,7 @@ import Cookies from 'js-cookie';
 import { useSelector, useDispatch } from 'react-redux';
 import { login, logout } from '../../../redux/slices/authSlice';
 import logo from "../../../../public/assets/Header/wikipedia.png";
+import axios from 'axios';
 
 const DynamicMenu = dynamic(() => import('./Menu'), { ssr: false });
 
@@ -99,9 +100,12 @@ const Header = () => {
           )}
           <Link className='text-blue-800' href='/pages/donate'>Donate</Link>
           {isLoggedIn ? (
-            <button onClick={handleSignOut} className="ml-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-              Sign Out
-            </button>
+            <>
+              <Link className='text-blue-800' href='/pages/profile'>Profile</Link>
+              <button onClick={handleSignOut} className="ml-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                Sign Out
+              </button>
+            </>
           ) : (
             <>
               <Link className='text-blue-800' href='/pages/auth/signup'>Create account</Link>

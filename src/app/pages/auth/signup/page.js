@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Oval } from 'react-loader-spinner';
-import { signUp } from '@/utils/auth/users/signupUtils';
+import { signUp } from '@/services/auth/users/signupUtils';
 
 const SignUp = () => {
   const [username, setUsername] = useState('');

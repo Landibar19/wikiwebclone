@@ -6,7 +6,7 @@ export const signUp = async (username, email, password, setMessage, setSuccess, 
   setSuccess(false);
 
   try {
-    const response = await axios.post('/api/auth/signup', {
+    const response = await axios.post('/api/auth/user/signup', {
       username,
       email,
       password,

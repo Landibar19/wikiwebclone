@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
-import { handleAdminLogin } from '@/utils/auth/admin/adminAuthUtils';
+import { handleAdminLogin } from '@/services/auth/admin/adminAuthUtils';
 
 const AdminLogin = () => {
   const [username, setUsername] = useState('');

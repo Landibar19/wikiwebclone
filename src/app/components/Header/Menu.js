@@ -15,6 +15,7 @@ const Menu = () => {
           <li className='p-2'><Link href='/page3'>Contact Us</Link></li>
           <li className='p-2'><Link href='/page3'>Help</Link></li>
           <li className='p-2'><Link href='/page3'>Community</Link></li>
+          <li className='p-2'><Link href='/profile'>Profile</Link></li>
         </ul>
       </div>
     </div>
